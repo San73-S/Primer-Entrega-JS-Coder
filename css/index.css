@@ -1,0 +1,17 @@
+li{
+    font-size: 20px;
+}
+
+.rojo{
+    color: red;
+    font-weight: bold;
+}
+
+.verde{
+    color: green;
+    font-weight: bold;
+}
+
+.negrita{
+    font-weight: bold;
+}
