@@ -1,37 +1,166 @@
-/**
- * 
- * FUNCION ENCARGADA DE RETORNAR EL VALOR DEL DADO
- */
+const Maso = [
 
-function valorDado(){
-    return Math.floor(Math.random() * 6) + 1;   
-}
+    {
+        Valor: 1,
+        Palo: "Oro",
+        Figura: "Numerica"
+    },
 
-let cartas = ["Recibe doble daño R", "Recibe doble daño V", "Ruleta Rusa R", "Ruleta Rusa V", "Perdes una vida R", "Perdes una vida V",
-            "Perdes el siguiente turno R", "Perdes el siguiente turno V", "Perdes la visibilidad de tus cartas R", 
-            "Perdes la visibilidad de tus cartas V", "Perdes carta al azar R", "Perdes carta al azar V", "Ganas una vida R", 
-            "Ganas una vida V", "Proteccion R", "Proteccion V"];
+    {
+        Valor: 1,
+        Palo: "Espada",
+        Figura: "Numerica"
+    },
 
-let baraja1 = [];
-let baraja2 = [];
+    {
+        Valor: 1,
+        Palo: "Basto",
+        Figura: "Numerica"
+    },
 
-function repartirCartas(cartas, maso){
+    {
+        Valor: 1,
+        Palo: "Copa",
+        Figura: "Numerica"
+    },
 
-    let posiciones = posicionDeCartasSinRepetir(cartas);
+    {
+        Valor: 10,
+        Palo: "Oro",
+        Figura: "Sota"
+    },
 
-    for(let i = 0; i<5; i++){
-        maso[i] = cartas[posiciones[i]];
+    {
+        Valor: 10,
+        Palo: "Espada",
+        Figura: "Sota"
+    },
+
+    {
+        Valor: 10,
+        Palo: "Basto",
+        Figura: "Sota"
+    },
+
+    {
+        Valor: 10,
+        Palo: "Copa",
+        Figura: "Sota"
+    },
+
+    {
+        Valor: 11,
+        Palo: "Oro",
+        Figura: "Caballo"
+    },
+
+    {
+        Valor: 11,
+        Palo: "Espada",
+        Figura: "Caballo"
+    },
+    
+    {
+        Valor: 11,
+        Palo: "Basto",
+        Figura: "Caballo"
+    },
+    
+    {
+        Valor: 11,
+        Palo: "Copa",
+        Figura: "Caballo"
+    },
+    
+    {
+        Valor: 12,
+        Palo: "Oro",
+        Figura: "Rey"
+    },
+    
+    {
+        Valor: 12,
+        Palo: "Espada",
+        Figura: "Rey"
+    },
+    
+    {
+        Valor: 12,
+        Palo: "Basto",
+        Figura: "Rey"
+    },
+    
+    {
+        Valor: 12,
+        Palo: "Copa",
+        Figura: "Rey"
+    },
+
+    {
+        Valor: 0,
+        Palo: "Comodin",
+        Figura: "Comodin"
+    },
+
+    {
+        Valor: 0,
+        Palo: "Comodin",
+        Figura: "Comodin"
     }
+
+]
+
+const figuraDeCartas = ["Numerica", "Sota", "Caballo", "Rey", "Comodin"];
+
+class Jugador{
+
+    constructor(nombre, vidas, baraja){
+        this.nombre = nombre;
+        this.vidas = vidas;
+        this.baraja = baraja;
+    }
+
+    verCartas(){
+        console.log(`\nCartas de ${this.nombre}`)
+        this.baraja.forEach(element => {
+            console.log(`${element.Valor} de ${element.Palo}`)
+        });
+    }
+
+    imprimirCartas(){
+        let cadena = "";
+        this.baraja.forEach(element => {
+            cadena += `${element.Valor} de ${element.Palo}\n`
+        });
+        return cadena;
+    }
+
 }
 
-function posicionDeCartasSinRepetir(cartas){
+function repartirCartas(jugador1, jugador2, Maso){
+
+    let posiciones = posicionDeCartasSinRepetir(Maso);
+    let arrayAux = [];
+    let arrayAux2 = [];
+
+    for(let i = 0; i<10; i++){
+        arrayAux[i] = Maso[posiciones[i]];
+        i+=1;                                   // 'I' se incrementa para dar esa efecto de repartir una carta a la vez para cada uno
+        arrayAux2[i] = Maso[posiciones[i]];    
+    }
+
+    jugador1.baraja= arrayAux;
+    jugador2.baraja= arrayAux2;
+}
+
+function posicionDeCartasSinRepetir(maso){
     let barajaAux = [];
     let cont = 1;
     let num ;
     let flag = false;
 
-    while(cont <= 5){
-        num = Math.floor(Math.random() * cartas.length);       
+    while(cont <= 10){
+        num = Math.floor(Math.random() * maso.length);       
         for(let i = 0; i < cont; i++){ 
             if(barajaAux[i] === num){
                 flag = true;
@@ -49,22 +178,30 @@ function posicionDeCartasSinRepetir(cartas){
     return barajaAux;
 }
 
-function escribir(baraja){
-    for(carta of baraja){
-        document.write(carta + "<br>");
+const seleccionDeFigura = (figuraDeCartas) => figuraDeCartas[Math.floor(Math.random() * (figuraDeCartas.length-1))];
+
+
+function mentiroso(){
+
+    let jugador1 = new Jugador("Santiago", 3);
+    let jugador2 = new Jugador("Pedro", 3);
+    repartirCartas(jugador1, jugador2, Maso);
+    jugador1.verCartas();
+    jugador2.verCartas();
+
+    let ronda =seleccionDeFigura(figuraDeCartas);
+
+    alert("En esta ronda se podran tirar solamente figuras de: " + ronda);
+    
+    while(true){
+        alert("Jugador " + jugador1.nombre + " tus cartas son\n" + jugador1.imprimirCartas())
+        console.log(jugador1.imprimirCartas())
+        break;
     }
+
+    
+
+
 }
 
-repartirCartas(cartas, baraja1);
-console.log(baraja1);
-
-repartirCartas(cartas, baraja2);
-console.log(baraja2);
-
-document.write("Cartas del jugador N°1: <br> <br>")
-escribir(baraja1);
-document.write("<br>Dado del jugador N°1: &nbsp;", valorDado() + "<br>");
-
-document.write("<br>Cartas del jugador N°2: <br> <br>")
-escribir(baraja2);
-document.write("<br>Dado del jugador N°2: &nbsp;", valorDado() + "<br>");
+mentiroso();
