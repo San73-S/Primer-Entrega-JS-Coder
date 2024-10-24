@@ -130,7 +130,7 @@ class Jugador{
     imprimirCartas(){
         let cadena = "";
         this.baraja.forEach((element, indice) => {
-            cadena += `${indice + 1}) ${element.Valor} de ${element.Palo}\n`
+            cadena += `${indice + 1}) ${element.Valor} de ${element.Palo} (${element.Figura})\n`
         });
         return cadena;
     }
@@ -198,10 +198,18 @@ function seleccionDeCartaATirar(jugador, ronda){
             return cartaSeleccionada;
 }
 
-function esMentira(){
-    
+function esMentira(){    
     let respuesta = parseInt(prompt("¿El jugador miente?\n1) Si\n2) No")); 
     return respuesta === 1 ? true : false;
+}
+
+function comprobarCarta(carta, ronda){
+    console.log(carta.Figura + " " + ronda)
+    if( carta.Figura == ronda || carta.Figura == "Comodin"){
+        alert("El jugador tiro correctamente un " + carta.Figura);        
+    } else{
+        alert("Es mentira!\nEl jugador tiro " + carta.Figura);
+    }
 }
 
 
@@ -240,6 +248,7 @@ function mentiroso(){
         cartaJ1 = seleccionDeCartaATirar(jugador1, ronda);
         console.log(cartaJ1);
         flag = true;        //El flag pasa a valer true ya que estaba en false para evitar su ejecucion en el primer turno.
+        if(esMentira()) comprobarCarta(cartaJ1, ronda);
         cartaJ2 = seleccionDeCartaATirar(jugador2, ronda);
         console.log(cartaJ2);
         break;
