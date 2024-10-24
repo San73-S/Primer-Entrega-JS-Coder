@@ -206,9 +206,11 @@ function esMentira(){
 function comprobarCarta(carta, ronda){
     console.log(carta.Figura + " " + ronda)
     if( carta.Figura == ronda || carta.Figura == "Comodin"){
-        alert("El jugador tiro correctamente un " + carta.Figura);        
+        alert("El jugador tiro correctamente un " + carta.Figura);
+        return true;        
     } else{
         alert("Es mentira!\nEl jugador tiro " + carta.Figura);
+        return false;
     }
 }
 
@@ -224,34 +226,19 @@ function mentiroso(){
     let ronda =seleccionDeFigura(figuraDeCartas);
     let flag = false;
     let cartaJ1, cartaJ2;
-    let mentiroso = false;
+    let mentiroso;
 
     alert("En esta ronda se podran tirar solamente figuras de: " + ronda);
     
-    while(true){
-        //let a = parseInt(prompt("Jugador " + jugador1.nombre + " tus cartas son:\n" + jugador1.imprimirCartas() + "\n¿Cuál deseas tirar?"));
-       /* let posCarta = 0;
-        do{
-            posCarta = parseInt(prompt("Jugador " + jugador1.nombre + " tus cartas son:\n" + jugador1.imprimirCartas() + "\n¿Cuál deseas tirar?"));
-            if(posCarta<1 || posCarta>5) alert("Ingreso un numero incorrecto.\nVuelva a ingresar un numero correcto.");
-        } while(!(posCarta>=1 && posCarta<=5))
-
-            //alert("\nLa carta que tiro fue " + jugador1.baraja[posCarta-1].Valor + " de " + jugador1.baraja[posCarta-1].Palo); 
-
-            jugador1.baraja.splice(posCarta-1,1);
-            alert("El jugador " + jugador1.nombre + " tiro 1 " + ronda );
-            console.log(jugador1.imprimirCartas());
-
-        alert("Jugador " + jugador2.nombre + " tus cartas son:\n" + jugador2.imprimirCartas())*/
-        if(flag) mentiroso = esMentira();
-        //Acá cortar antes de preguntar, el juego termina 
-        cartaJ1 = seleccionDeCartaATirar(jugador1, ronda);
-        console.log(cartaJ1);
+    while(mentiroso == null){
+        if(jugador2.baraja.length === 0 )  mentiroso = comprobarCarta(cartaJ1, ronda);
+        if(flag && esMentira()) mentiroso = comprobarCarta(cartaJ2, ronda);
+        if(mentiroso == null) cartaJ1 = seleccionDeCartaATirar(jugador1, ronda);
+        console.log("Holanda ", jugador1.baraja.length);
         flag = true;        //El flag pasa a valer true ya que estaba en false para evitar su ejecucion en el primer turno.
-        if(esMentira()) comprobarCarta(cartaJ1, ronda);
-        cartaJ2 = seleccionDeCartaATirar(jugador2, ronda);
-        console.log(cartaJ2);
-        break;
+        if(jugador1.baraja.length === 0 )  mentiroso = comprobarCarta(cartaJ1, ronda);        
+        if(mentiroso == null && esMentira()) mentiroso = comprobarCarta(cartaJ1, ronda);
+        if(mentiroso == null) cartaJ2 = seleccionDeCartaATirar(jugador2, ronda);
     }
 
     
